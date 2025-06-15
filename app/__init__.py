@@ -1,4 +1,5 @@
 # app/__init__.py
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -17,6 +18,9 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    app.config['UPLOAD_FOLDER'] = Config.UPLOAD_FOLDER
+    os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
+
     db.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
@@ -27,4 +31,8 @@ def create_app():
     app.register_blueprint(admin, url_prefix='/admin')
 
     return app
+
+# Utility: check allowed file extension
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 

@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     role = db.Column(db.String(20), default='user')
+    profile_image = db.Column(db.String(200), default='default.png')
     is_confirmed = db.Column(db.Boolean, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
 
@@ -17,3 +18,19 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+# Global settings model
+class GlobalSettings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    setting_name = db.Column(db.String(100), unique=True)
+    setting_value = db.Column(db.String(200))
+    description = db.Column(db.String(200))
+
+    def get_typed_value(self):
+        val = self.setting_value.strip()
+        if val.isdigit():
+            return int(val)
+        try: return float(val)
+        except ValueError:
+            pass
+        return val

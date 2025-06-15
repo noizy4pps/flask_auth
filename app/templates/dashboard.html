@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Dashboard</h2>
+<p>Welcome, {{ current_user.username }}!</p>
+<p>Your role: <strong>{{ current_user.role }}</strong></p>
+<a href="{{ url_for('auth.upload_profile') }}" class="btn btn-outline-info">Upload Profile Image</a>
+<br>
+{% if current_user.role == 'admin' %}
+<a href="{{ url_for('admin.settings') }}" class="btn btn-outline-info">Global Settings</a>
+{% endif %}
+{% endblock %}

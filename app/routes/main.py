@@ -1,15 +1,22 @@
 # app/routes/main.py
-from flask import Blueprint, jsonify
+import os
+import uuid
+from flask import Blueprint, jsonify, render_template, request
 from flask_login import login_required, current_user
+from app import allowed_file
+from config import Config
+
 
 bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def home():
-    return jsonify({"message": "Welcome to the home page."})
+    return render_template('home.html')
+
 
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    return jsonify({"message": f"Welcome {current_user.username} to your dashboard."})
+    return render_template('dashboard.html')
+
 

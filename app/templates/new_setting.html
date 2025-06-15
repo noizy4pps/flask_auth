@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Add Global Setting{% endblock %}
+{% block content %}
+<h2>Add New Setting</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Setting Name</label>
+        <input class="form-control" name="setting_name" required>
+    </div>
+    <div class="mb-3">
+        <label>Setting Value</label>
+        <input class="form-control" name="setting_value" required>
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <input class="form-control" name="description" >
+    </div>
+    <button class="btn btn-primary">Add</button>
+</form>
+{% endblock %}
