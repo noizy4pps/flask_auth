@@ -1,5 +1,5 @@
 # app/routes/auth.py
-from flask import Blueprint, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, login_required
 from app.models import User
 from app.forms import LoginForm, RegistrationForm
@@ -19,9 +19,12 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return jsonify({"message": "Logged in successfully."}), 200
-        flash('Invalid username or password')
-    return jsonify({"message": "Invalid data."}), 400
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('main.dashboard'))  # or any page you like
+        else:
+            flash('Invalid email or password.', 'danger')
+    
+    return render_template('login.html', form=form)
 
 @bp.route('/logout')
 @login_required
@@ -33,12 +36,19 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        existing_user = User.query.filter_by(email=form.email.data).first()
+        if existing_user:
+            flash('Email already registered.', 'danger')
+            return redirect(url_for('auth.register'))
+
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return jsonify({"message": "User registered."}), 201
-    return jsonify({"message": "Invalid registration data."}), 400
+        flash('Registration successful. Please log in.', 'success')
+        return redirect(url_for('auth.login'))
+    
+    return render_template('register.html', form=form)
 
 @bp.route('/create-admin', methods=['GET'])
 def create_admin():
