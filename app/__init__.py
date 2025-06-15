@@ -22,8 +22,9 @@ def create_app():
     migrate.init_app(app, db)
 
     from app.routes import main, auth, admin
-    app.register_blueprint(main.bp)
-    app.register_blueprint(auth.bp, url_prefix='/auth')
-    app.register_blueprint(admin.bp, url_prefix='/admin')
+    app.register_blueprint(main)
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(admin, url_prefix='/admin')
 
     return app
+
