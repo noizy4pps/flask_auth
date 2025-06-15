@@ -40,7 +40,7 @@ def register():
         return jsonify({"message": "User registered."}), 201
     return jsonify({"message": "Invalid registration data."}), 400
 
-@bp.route('/create-admin', methods=['POST'])
+@bp.route('/create-admin', methods=['GET'])
 def create_admin():
     username = "admin123"
     if User.query.filter_by(username=username).first():
@@ -48,7 +48,8 @@ def create_admin():
 
     password = "admin123"
     hashed = generate_password_hash(password)
-    admin = User(username=username, password=hashed, role='admin')
+    email = "email@example.com"
+    admin = User(username=username, email=email, password_hash=hashed, role='admin')
     db.session.add(admin)
     db.session.commit()
-    return jsonify({"message": "admin registered successfullu."}), 201
+    return jsonify({"message": "admin registered successfully."}), 201
