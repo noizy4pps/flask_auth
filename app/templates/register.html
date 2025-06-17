@@ -2,29 +2,39 @@
 {% block title %}Register{% endblock %}
 {% block content %}
 <h2>Register</h2>
-<form method="POST">
-    {{ form.hidden_tag() }}
-    <div class="mb-3">
-        {{ form.username.label }} 
-        {{ form.username(class_="form-control") }}<br>
-        <!-- <input type="text" class="form-control" name="username" placeholder="Username" required> -->
+<div class="card shadow-lg w-100 mx-auto" style="max-width: 480px;">
+        <div class="card-body">
+            <div class="text-center">
+                <h1 class="card-title h3">Sign Up</h1>
+                <p class="card-text text-muted">Sign up below to create your account</p>
+            </div>
+            <div class="mt-4">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-4">
+                        {{ form.username.label }} 
+                        {{ form.username(class_="form-control") }}<br>
+                    </div>
+                    <div class="mb-4">
+                        {{ form.email.label }} 
+                        {{ form.email(class_="form-control") }}<br>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label }} 
+                        {{ form.password(class_="form-control") }}<br>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.confirm.label }} 
+                        {{ form.confirm(class_="form-control") }}
+                    </div>
+                    <div class="d-grid">
+                        {{ form.submit(class_="btn btn-dark btn-lg") }}
+                    </div>
+                    <p class="text-center text-muted mt-4">Don't have an account yet?
+                        <a href="{{ url_for('auth.register') }}" class="text-decoration-none">Sign up</a>.
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        {{ form.email.label }} 
-        {{ form.email(class_="form-control") }}<br>
-        <!-- <input type="text" class="form-control" name="username" placeholder="Username" required> -->
-    </div>
-    <div class="mb-3">
-        {{ form.password.label }} 
-        {{ form.password(class_="form-control") }}<br>
-        <!-- <input type="password" class="form-control" name="password" placeholder="Password" required> -->
-    </div>
-    <div class="mb-3">
-        {{ form.confirm.label }} 
-        {{ form.confirm() }}
-        
-    </div>
-     {{ form.submit(class_="btn btn-success") }}
-    <!-- <button class="btn btn-success">Register</button> -->
-</form>
 {% endblock %}
