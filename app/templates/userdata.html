@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Userdata{% endblock %}
+{% block content %}
+<h2>Users data (Admin Only)</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>username</th>
+      <th>email</th>
+      <th>role</th>
+      <th>profile img</th>
+      <th>is confirmed?</th>
+      <th>confirmed on</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for userdata in userdata %}
+    <tr>
+      <td>{{ userdata.id }}</td>
+      <td>{{ userdata.username }}</td>
+      <td>{{ userdata.email }}</td>
+      <td>{{ userdata.role }}</td>
+      <td>{{ userdata.profile_image }}</td>
+      <td>{{ userdata.is_confirmed }}</td>
+      <td>{{ userdata.confirmed_on }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

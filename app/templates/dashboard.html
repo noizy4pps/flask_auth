@@ -8,5 +8,7 @@
 <br>
 {% if current_user.role == 'admin' %}
 <a href="{{ url_for('admin.settings') }}" class="btn btn-outline-info">Global Settings</a>
+<br>
+<a href="{{ url_for('admin.view_user_data') }}" class="btn btn-outline-info">All users</a>
 {% endif %}
 {% endblock %}

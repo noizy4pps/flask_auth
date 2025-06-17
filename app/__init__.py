@@ -1,6 +1,7 @@
 # app/__init__.py
 import os
 from flask import Flask
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -12,7 +13,7 @@ login_manager = LoginManager()
 migrate = Migrate()
 
 login_manager.login_view = 'auth.login'
-
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -30,7 +31,11 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(admin, url_prefix='/admin')
 
+    mail.init_app(app)
+
     return app
+
+__all__ = ['mail']
 
 # Utility: check allowed file extension
 def allowed_file(filename):

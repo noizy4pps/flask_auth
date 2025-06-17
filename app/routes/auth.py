@@ -1,4 +1,5 @@
 # app/routes/auth.py
+from datetime import datetime
 import os
 import uuid
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
@@ -8,6 +9,10 @@ from app.forms import LoginForm, RegistrationForm
 from app import allowed_file, db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.validators import Email
+from itsdangerous import URLSafeTimedSerializer
+from flask import current_app
+from flask_mail import Message
+from app import mail  # ensure mail = Mail(app) is in your app factory
 
 from config import Config
 
@@ -46,12 +51,31 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('User registered.', 'success')
+        send_confirmation_email(user)
+        flash('User registered. A confirmation email has been sent.', 'success')
         return redirect(url_for('auth.login'))  # or any page
     if request.method == 'POST':
         flash('Invalid registration data.', 'error')
         return redirect(url_for('auth.register'))  # or any page
     return render_template('register.html', form=form)
+
+@bp.route('/confirm/<token>')
+def confirm_email(token):
+    email = confirm_token(token)
+    if not email:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+        return redirect(url_for('auth.login'))
+
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.is_confirmed:
+        flash('Account already confirmed. Please login.', 'info')
+    else:
+        user.is_confirmed = True
+        user.confirmed_on = datetime.utcnow()
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('auth.login'))
+
 
 @bp.route('/create-admin', methods=['GET'])
 def create_admin():
@@ -61,8 +85,10 @@ def create_admin():
 
     password = "admin123"
     hashed = generate_password_hash(password)
-    email = "email@example.com"
-    admin = User(username=username, email=email, password_hash=hashed, role='admin')
+    email = "lorenzo.quaglieri@libero.it"
+    user_is_confirmed = True
+    user_confirmed_on = datetime.utcnow()
+    admin = User(username=username, email=email, password_hash=hashed, role='admin', is_confirmed=user_is_confirmed, confirmed_on=user_confirmed_on)
     db.session.add(admin)
     db.session.commit()
     return jsonify({"message": "admin registered successfully."}), 201
@@ -93,3 +119,28 @@ def upload_profile():
 
         flash('Invalid file.')
     return render_template('upload_profile.html')
+
+def generate_confirmation_token(email):
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt='email-confirm-salt')
+
+def confirm_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    try:
+        email = serializer.loads(
+            token,
+            salt='email-confirm-salt',
+            max_age=expiration
+        )
+    except Exception:
+        return False
+    return email
+
+
+def send_confirmation_email(user):
+    token = generate_confirmation_token(user.email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
+    msg = Message('Confirm Your Email', recipients=[user.email], html=html)
+    mail.send(msg)
+

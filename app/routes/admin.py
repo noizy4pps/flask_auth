@@ -2,7 +2,7 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from app import db
-from app.models import GlobalSettings
+from app.models import GlobalSettings, User
 
 bp = Blueprint('admin', __name__)
 
@@ -13,6 +13,22 @@ def create_editor():
         return jsonify({"error": "Unauthorized"}), 403
     # logic to create editor (stub)
     return jsonify({"message": "Editor created."}), 201
+
+# Admin-only global settings
+@bp.route('/view-user-data', methods=['GET', 'POST'])
+@login_required
+def view_user_data():
+    if current_user.role != 'admin':
+        flash('Access denied.')
+        return redirect(url_for('main.dashboard'))
+
+    userdata = User.query.all()
+    """ if request.method == 'POST':
+        for s in settings:
+            s.setting_value = request.form.get(s.setting_name, '')
+        db.session.commit()
+        flash('Settings updated.') """
+    return render_template('userdata.html', userdata=userdata)
 
 # Admin-only global settings
 @bp.route('/settings', methods=['GET', 'POST'])
