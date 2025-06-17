@@ -6,6 +6,10 @@
 <p>Your role: <strong>{{ current_user.role }}</strong></p>
 <a href="{{ url_for('auth.upload_profile') }}" class="btn btn-outline-info">Upload Profile Image</a>
 <br>
+<a href="{{ url_for('auth.update_email') }}" class="btn btn-outline-info">Update Email</a>
+<br>
+<a href="{{ url_for('auth.update_password') }}" class="btn btn-outline-info">Update Password</a>
+<br>
 {% if current_user.role == 'admin' %}
 <a href="{{ url_for('admin.settings') }}" class="btn btn-outline-info">Global Settings</a>
 <br>

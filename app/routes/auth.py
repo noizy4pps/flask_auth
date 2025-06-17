@@ -5,7 +5,7 @@ import uuid
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, UpdateEmailForm, UpdatePasswordForm
 from app import allowed_file, db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.validators import Email
@@ -120,6 +120,34 @@ def upload_profile():
         flash('Invalid file.')
     return render_template('upload_profile.html')
 
+@bp.route('/update-email', methods=['GET', 'POST'])
+@login_required
+def update_email():
+    form = UpdateEmailForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash("Email updated.")
+        return redirect(url_for('main.dashboard'))
+    if request.method == 'POST':
+        flash("Invalid email data.")
+        return render_template('update_email.html', form=form)
+    return render_template('update_email.html', form=form)
+
+@bp.route('/update-password', methods=['GET', 'POST'])
+@login_required
+def update_password():
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        current_user.set_password(form.password.data)
+        db.session.commit()
+        flash("Password updated.")
+        return redirect(url_for('main.dashboard'))
+    if request.method == 'POST':
+        flash("Invalid password data.")
+        return render_template('update_password.html', form=form)
+    return render_template('update_password.html', form=form)
+
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
     return serializer.dumps(email, salt='email-confirm-salt')
@@ -143,4 +171,6 @@ def send_confirmation_email(user):
     html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
     msg = Message('Confirm Your Email', recipients=[user.email], html=html)
     mail.send(msg)
+
+
 
