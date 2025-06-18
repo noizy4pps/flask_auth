@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock %}
-{% block content %}
-<h2>Dashboard</h2>
+
+{% block main_menu %}
 <p>Welcome, {{ current_user.username }}!</p>
 <p>Your role: <strong>{{ current_user.role }}</strong></p>
-<a href="{{ url_for('auth.upload_profile') }}" class="btn btn-outline-info">Upload Profile Image</a>
-<br>
-<a href="{{ url_for('auth.update_email') }}" class="btn btn-outline-info">Update Email</a>
-<br>
-<a href="{{ url_for('auth.update_password') }}" class="btn btn-outline-info">Update Password</a>
-<br>
-{% if current_user.role == 'admin' %}
-<a href="{{ url_for('admin.settings') }}" class="btn btn-outline-info">Global Settings</a>
-<br>
-<a href="{{ url_for('admin.view_user_data') }}" class="btn btn-outline-info">All users</a>
-{% endif %}
+<div class="dropdown-center">
+  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Actions
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="{{ url_for('auth.upload_profile') }}" class="dropdown-item">Upload Profile Image</a></li>
+    <li><a href="{{ url_for('auth.update_email') }}" class="dropdown-item">Update Email</a></li>
+    <li><a href="{{ url_for('auth.update_password') }}" class="dropdown-item">Update Password</a></li>
+    {% if current_user.role == 'admin' %}
+    <li><a href="{{ url_for('admin.settings') }}" class="dropdown-item">Global Settings</a></li>
+    <li><a href="{{ url_for('admin.view_user_data') }}" class="dropdown-item">All users</a></li>
+    {% endif %}
+  </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<p>content here</p>
 {% endblock %}
