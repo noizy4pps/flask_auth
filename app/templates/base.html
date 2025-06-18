@@ -19,6 +19,10 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
       <ul class="navbar-nav">
         {% if current_user.is_authenticated %}
+            {% if current_user.profile_image %}
+                    <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}"
+                         alt="Profile" class="rounded-circle me-2 mb-1" width="32" height="32">
+            {% endif %}
           <li class="nav-item">
             <a class="btn btn-outline-primary btn-sm mb-1 mx-1" href="{{ url_for('main.dashboard') }}">Dashboard</a>
           </li>
