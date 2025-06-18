@@ -5,7 +5,7 @@ import uuid
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
-from app.forms import LoginForm, RegistrationForm, UpdateEmailForm, UpdatePasswordForm
+from app.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateEmailForm, UpdatePasswordForm
 from app import allowed_file, db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from wtforms.validators import Email
@@ -21,6 +21,30 @@ bp = Blueprint('auth', __name__)
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def generate_confirmation_token(email):
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    return serializer.dumps(email, salt='email-confirm-salt')
+
+def confirm_token(token, expiration=3600):
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    try:
+        email = serializer.loads(
+            token,
+            salt='email-confirm-salt',
+            max_age=expiration
+        )
+    except Exception:
+        return False
+    return email
+
+
+def send_confirmation_email(user):
+    token = generate_confirmation_token(user.email)
+    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+    html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
+    msg = Message('Confirm Your Email', recipients=[user.email], html=html)
+    mail.send(msg)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -150,30 +174,37 @@ def update_password():
         return render_template('update_password.html', form=form)
     return render_template('update_password.html', form=form)
 
+@bp.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            token = generate_confirmation_token(user.email)
+            reset_url = url_for('auth.reset_password', token=token, _external=True)
+            msg = Message('Password Reset Request', recipients=[user.email])
+            msg.body = f'Reset your password using the following link (valid for 1 hour): {reset_url}'
+            mail.send(msg)
+        flash("If your email is registered, you will receive a password reset link.")
+        return redirect(url_for('main.dashboard'))
+    return render_template('forgot_password.html', form=form)
 
-def generate_confirmation_token(email):
-    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
-    return serializer.dumps(email, salt='email-confirm-salt')
-
-def confirm_token(token, expiration=3600):
-    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
-    try:
-        email = serializer.loads(
-            token,
-            salt='email-confirm-salt',
-            max_age=expiration
-        )
-    except Exception:
-        return False
-    return email
+@bp.route('/reset-password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    email = confirm_token(token)
+    if not email:
+        return jsonify({"message": "The reset link is invalid or has expired."}), 400
+    user = User.query.filter_by(email=email).first_or_404()
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash("Password has been reset.")
+        return redirect(url_for('auth.login'))
+    return render_template('reset_password.html', form=form)
 
 
-def send_confirmation_email(user):
-    token = generate_confirmation_token(user.email)
-    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
-    msg = Message('Confirm Your Email', recipients=[user.email], html=html)
-    mail.send(msg)
+
 
 
 
