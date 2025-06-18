@@ -20,6 +20,8 @@ class UpdateEmailForm(FlaskForm):
     submit = SubmitField('Update Email')
 
 class UpdatePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired()])
     password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)])
     confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Update Password')
+

@@ -139,6 +139,8 @@ def update_email():
 def update_password():
     form = UpdatePasswordForm()
     if form.validate_on_submit():
+        if not current_user.check_password(form.current_password.data):
+            return jsonify({"message": "Current password is incorrect."}), 400
         current_user.set_password(form.password.data)
         db.session.commit()
         flash("Password updated.")
@@ -147,6 +149,7 @@ def update_password():
         flash("Invalid password data.")
         return render_template('update_password.html', form=form)
     return render_template('update_password.html', form=form)
+
 
 def generate_confirmation_token(email):
     serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
