@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Edit Setting{% endblock %}
+{% block content %}
+<h2>Edit Setting</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Name</label>
+        <input class="form-control" name="setting_name" value="{{ setting.setting_name }}" required>
+    </div>
+    <div class="mb-3">
+        <label>Value</label>
+        <input class="form-control" name="setting_value" value="{{ setting.setting_value }}" required>
+    </div>
+    <div class="mb-3">
+        <label>Description</label>
+        <input class="form-control" name="description" value="{{ setting.description }}" required>
+    </div>
+    <button class="btn btn-primary">Save</button>
+    <a href="{{ url_for('admin.settings') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

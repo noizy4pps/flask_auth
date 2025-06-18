@@ -1,6 +1,6 @@
 .venv/
-# __pycache__/
-# instance/
-# migrations/
-# scripts/
-# app/__pycache__/
+__pycache__/
+instance/
+migrations/
+app/__pycache__/
+app/routes/__pycache__/
