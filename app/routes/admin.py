@@ -2,26 +2,53 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from app import db
+from app.forms import CreateEditorForm
 from app.models import GlobalSettings, User
+from app.routes.auth import send_confirmation_email
+from app.utils.decorators import role_required
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('admin', __name__)
 
-@bp.route('/create-editor', methods=['POST'])
+@bp.route('/create-editor', methods=['GET', 'POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def create_editor():
-    if current_user.role != 'admin':
-        return jsonify({"error": "Unauthorized"}), 403
-    # logic to create editor (stub)
-    return jsonify({"message": "Editor created."}), 201
+    form = CreateEditorForm()
+    if form.validate_on_submit():
+        # Check if username or email already exists
+        existing_user = User.query.filter(
+            (User.username == form.username.data) | (User.email == form.email.data)
+        ).first()
+        if existing_user:
+            flash('Username or email already exists.', 'error')
+            return redirect(url_for('admin.create_editor'))  # or any page
+
+        # Create and save new editor user
+        user = User(
+            username=form.username.data,
+            email=form.email.data,
+            role='editor'
+        )
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        send_confirmation_email(user)
+        flash('Editor created successfully.')
+        return redirect(url_for('main.dashboard'))  # or any page
+
+    if request.method == 'POST':
+        flash('Invalid form data.', 'error')
+        return redirect(url_for('admin.create_editor'))  # or any page
+
+    return render_template('create_editor.html', form=form)
+
 
 # Admin-only global settings
 @bp.route('/view-user-data', methods=['GET', 'POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def view_user_data():
-    if current_user.role != 'admin':
-        flash('Access denied.')
-        return redirect(url_for('main.dashboard'))
-
     userdata = User.query.all()
     """ if request.method == 'POST':
         for s in settings:
@@ -33,11 +60,8 @@ def view_user_data():
 # Admin-only global settings
 @bp.route('/settings', methods=['GET', 'POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def settings():
-    if current_user.role != 'admin':
-        flash('Access denied.')
-        return redirect(url_for('main.dashboard'))
-
     settings = GlobalSettings.query.all()
     """ if request.method == 'POST':
         for s in settings:
@@ -48,11 +72,8 @@ def settings():
     
 @bp.route('/settings/new', methods=['GET', 'POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def add_setting():
-    if current_user.role != 'admin':
-        flash('Access denied.')
-        return redirect(url_for('main.dashboard'))
-
     if request.method == 'POST':
         name = request.form.get('setting_name')
         value = request.form.get('setting_value')
@@ -72,11 +93,8 @@ def add_setting():
 
 @bp.route('/settings/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def edit_setting(id):
-    if current_user.role != 'admin':
-        flash('Access denied.')
-        return redirect(url_for('main.dashboard'))
-
     setting = GlobalSettings.query.get_or_404(id)
 
     if request.method == 'POST':
@@ -91,11 +109,8 @@ def edit_setting(id):
 
 @bp.route('/settings/delete/<int:id>', methods=['POST'])
 @login_required
+@role_required('admin')  # Only allow admins
 def delete_setting(id):
-    if current_user.role != 'admin':
-        flash('Access denied.')
-        return redirect(url_for('main.dashboard'))
-
     setting = GlobalSettings.query.get_or_404(id)
     db.session.delete(setting)
     db.session.commit()

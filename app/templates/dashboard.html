@@ -15,6 +15,7 @@
     {% if current_user.role == 'admin' %}
     <li><a href="{{ url_for('admin.settings') }}" class="dropdown-item">Global Settings</a></li>
     <li><a href="{{ url_for('admin.view_user_data') }}" class="dropdown-item">All users</a></li>
+    <li><a href="{{ url_for('admin.create_editor') }}" class="dropdown-item">Create editor</a></li>
     {% endif %}
   </ul>
 </div>
