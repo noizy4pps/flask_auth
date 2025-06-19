@@ -2,7 +2,7 @@
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from app import db
-from app.forms import CreateEditorForm
+from app.forms import ChangeRoleForm, CreateEditorForm
 from app.models import GlobalSettings, User
 from app.routes.auth import send_confirmation_email
 from app.utils.decorators import role_required
@@ -116,3 +116,22 @@ def delete_setting(id):
     db.session.commit()
     flash('Setting deleted.')
     return redirect(url_for('admin.settings'))
+
+@bp.route('/change-role', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')  # Only allow admins
+def change_role():
+    form = ChangeRoleForm()
+    # Populate dropdown with users
+    form.user_id.choices = [(user.id, f"{user.username} ({user.email})  ({user.role[:3]})") for user in User.query.filter(User.id != current_user.id).all()]
+
+    if form.validate_on_submit():
+        user = User.query.get(form.user_id.data)
+        if user:
+            user.role = form.role.data
+            db.session.commit()
+            flash(f"{user.username}'s role has been changed to {user.role}")
+            return redirect(url_for('admin.change_role'))
+        else:
+            flash('User not found')
+    return render_template('change_role.html', form=form)

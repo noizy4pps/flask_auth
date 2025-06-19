@@ -1,6 +1,6 @@
 # app/forms.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import SelectField, StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 class LoginForm(FlaskForm):
@@ -40,4 +40,7 @@ class CreateEditorForm(FlaskForm):
     password = StringField('Password', validators=[DataRequired(), Length(min=6)])
     submit = SubmitField('Create Editor')
 
-    
+class ChangeRoleForm(FlaskForm):
+    user_id = SelectField('User', coerce=int, validators=[DataRequired()])
+    role = SelectField('New Role', choices=[('user', 'User'), ('editor', 'Editor')])
+    submit = SubmitField('Update Role') 
