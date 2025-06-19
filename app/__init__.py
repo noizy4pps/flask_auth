@@ -26,6 +26,13 @@ def create_app():
     login_manager.init_app(app)
     migrate.init_app(app, db)
 
+    # load GlobalSettings model values
+    from app.models import GlobalSettings
+    with app.app_context():
+        settings = GlobalSettings.query.all()
+        for setting in settings:
+            app.config[setting.setting_name.upper()] = setting.setting_value
+
     from app.routes import main, auth, admin
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')

@@ -1,5 +1,5 @@
 # app/routes/admin.py
-from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from app import db
 from app.forms import ChangeRoleForm, CreateEditorForm
@@ -68,6 +68,7 @@ def settings():
             s.setting_value = request.form.get(s.setting_name, '')
         db.session.commit()
         flash('Settings updated.') """
+    # reload_settings()
     return render_template('settings.html', settings=settings)
     
 @bp.route('/settings/new', methods=['GET', 'POST'])
@@ -86,6 +87,9 @@ def add_setting():
         new_setting = GlobalSettings(setting_name=name, setting_value=value, description=desc)
         db.session.add(new_setting)
         db.session.commit()
+        # Sync change with app.config
+        current_app.config[new_setting.setting_name.upper()] = value
+        # print(current_app.config[new_setting.setting_name.upper()])
         flash('Setting added.')
         return redirect(url_for('admin.settings'))
 
@@ -102,6 +106,8 @@ def edit_setting(id):
         setting.setting_value = request.form['setting_value']
         setting.description = request.form['description']
         db.session.commit()
+        # Sync change with app.config
+        current_app.config[setting.setting_name.upper()] = request.form['setting_value']
         flash('Setting updated.')
         return redirect(url_for('admin.settings'))
 
@@ -114,6 +120,8 @@ def delete_setting(id):
     setting = GlobalSettings.query.get_or_404(id)
     db.session.delete(setting)
     db.session.commit()
+    # Remove from config
+    current_app.config.pop(setting.setting_name.upper(), None)
     flash('Setting deleted.')
     return redirect(url_for('admin.settings'))
 
@@ -135,3 +143,9 @@ def change_role():
         else:
             flash('User not found')
     return render_template('change_role.html', form=form)
+
+def reload_settings():
+    settings = GlobalSettings.query.all()
+    for s in settings:
+        current_app.config[s.setting_name.upper()] = s.setting_value
+        print(f"=={s.setting_name.upper()}={s.setting_value}==")
