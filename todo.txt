@@ -1,4 +1,4 @@
-- promote-demote users
+- promote-demote users OK
 - profile page
 - settings in session
 - if email not confirmed, after registration, what limits?

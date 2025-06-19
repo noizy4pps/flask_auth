@@ -5,3 +5,4 @@ migrations/
 app/__pycache__/
 app/routes/__pycache__/
 app/utils/__pycache__/
+app/static/profile_pics/
