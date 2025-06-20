@@ -18,8 +18,8 @@
       <td>{{ setting.setting_value }}</td>
       <td>{{ setting.description }}</td>
       <td>
-        <a href="{{ url_for('admin.edit_setting', id=setting.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-        <form action="{{ url_for('admin.delete_setting', id=setting.id) }}" method="POST" style="display:inline;">
+        <a href="{{ url_for('admin.edit_global_setting', id=setting.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+        <form action="{{ url_for('admin.delete_global_setting', id=setting.id) }}" method="POST" style="display:inline;">
           <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this setting?')">Delete</button>
         </form>
       </td>
@@ -29,6 +29,6 @@
 </table>
 
 <br />
-<a href="{{ url_for('admin.add_setting') }}" class="btn btn-sm btn-success">+ Add Setting</a>
+<a href="{{ url_for('admin.add_global_setting') }}" class="btn btn-sm btn-success">+ Add Setting</a>
 
 {% endblock %}

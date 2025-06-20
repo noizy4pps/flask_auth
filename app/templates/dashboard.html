@@ -13,7 +13,7 @@
     <li><a href="{{ url_for('auth.update_email') }}" class="dropdown-item">Update Email</a></li>
     <li><a href="{{ url_for('auth.update_password') }}" class="dropdown-item">Update Password</a></li>
     {% if current_user.role == 'admin' %}
-    <li><a href="{{ url_for('admin.settings') }}" class="dropdown-item">Global Settings</a></li>
+    <li><a href="{{ url_for('admin.global_settings') }}" class="dropdown-item">Global Settings</a></li>
     <li><a href="{{ url_for('admin.view_user_data') }}" class="dropdown-item">Users list</a></li>
     <li><a href="{{ url_for('admin.create_editor') }}" class="dropdown-item">Create editor</a></li>
     <li><a href="{{ url_for('admin.change_role') }}" class="dropdown-item">Manage roles</a></li>

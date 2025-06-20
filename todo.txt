@@ -1,5 +1,7 @@
 - promote-demote users OK
-- profile page
+- profile page OK
 - settings in session OK
 - if email not confirmed, after registration, what limits?
 - log admin actions
+- tieni traccia delle immagini caricate per cambiare imm. profilo senza fare upload ?
+- translations

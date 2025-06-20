@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Account settings{% endblock %}
+{% block content %}
+
+<h2>Account Settings</h2>
+  <ul>
+    <li><a href="{{ url_for('auth.update_email') }}">Update Email</a></li>
+    <li><a href="{{ url_for('auth.update_password') }}">Update Password</a></li>
+  </ul>
+  
+
+{% endblock %}

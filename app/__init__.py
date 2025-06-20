@@ -33,10 +33,11 @@ def create_app():
         for setting in settings:
             app.config[setting.setting_name.upper()] = setting.setting_value
 
-    from app.routes import main, auth, admin
+    from app.routes import main, auth, admin, user
     app.register_blueprint(main)
     app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(admin, url_prefix='/admin')
+    app.register_blueprint(user, url_prefix='/user')
 
     mail.init_app(app)
 

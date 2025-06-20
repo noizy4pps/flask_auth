@@ -93,7 +93,7 @@ def add_global_setting():
         flash('Setting added.')
         return redirect(url_for('admin.global_settings'))
 
-    return render_template('new_setting.html')
+    return render_template('new_global_setting.html')
 
 @bp.route('/settings/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -111,7 +111,7 @@ def edit_global_setting(id):
         flash('Setting updated.')
         return redirect(url_for('admin.global_settings'))
 
-    return render_template('edit_setting.html', setting=setting)
+    return render_template('edit_global_setting.html', setting=setting)
 
 @bp.route('/settings/delete/<int:id>', methods=['POST'])
 @login_required
