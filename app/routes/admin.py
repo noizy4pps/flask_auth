@@ -61,7 +61,7 @@ def view_user_data():
 @bp.route('/settings', methods=['GET', 'POST'])
 @login_required
 @role_required('admin')  # Only allow admins
-def settings():
+def global_settings():
     settings = GlobalSettings.query.all()
     """ if request.method == 'POST':
         for s in settings:
@@ -69,12 +69,12 @@ def settings():
         db.session.commit()
         flash('Settings updated.') """
     # reload_settings()
-    return render_template('settings.html', settings=settings)
+    return render_template('global_settings.html', settings=settings)
     
 @bp.route('/settings/new', methods=['GET', 'POST'])
 @login_required
 @role_required('admin')  # Only allow admins
-def add_setting():
+def add_global_setting():
     if request.method == 'POST':
         name = request.form.get('setting_name')
         value = request.form.get('setting_value')
@@ -82,7 +82,7 @@ def add_setting():
 
         if GlobalSettings.query.filter_by(setting_name=name).first():
             flash('Setting already exists.')
-            return redirect(url_for('admin.add_setting'))
+            return redirect(url_for('admin.add_global_setting'))
 
         new_setting = GlobalSettings(setting_name=name, setting_value=value, description=desc)
         db.session.add(new_setting)
@@ -91,14 +91,14 @@ def add_setting():
         current_app.config[new_setting.setting_name.upper()] = value
         # print(current_app.config[new_setting.setting_name.upper()])
         flash('Setting added.')
-        return redirect(url_for('admin.settings'))
+        return redirect(url_for('admin.global_settings'))
 
     return render_template('new_setting.html')
 
 @bp.route('/settings/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
 @role_required('admin')  # Only allow admins
-def edit_setting(id):
+def edit_global_setting(id):
     setting = GlobalSettings.query.get_or_404(id)
 
     if request.method == 'POST':
@@ -109,21 +109,21 @@ def edit_setting(id):
         # Sync change with app.config
         current_app.config[setting.setting_name.upper()] = request.form['setting_value']
         flash('Setting updated.')
-        return redirect(url_for('admin.settings'))
+        return redirect(url_for('admin.global_settings'))
 
     return render_template('edit_setting.html', setting=setting)
 
 @bp.route('/settings/delete/<int:id>', methods=['POST'])
 @login_required
 @role_required('admin')  # Only allow admins
-def delete_setting(id):
+def delete_global_setting(id):
     setting = GlobalSettings.query.get_or_404(id)
     db.session.delete(setting)
     db.session.commit()
     # Remove from config
     current_app.config.pop(setting.setting_name.upper(), None)
     flash('Setting deleted.')
-    return redirect(url_for('admin.settings'))
+    return redirect(url_for('admin.global_settings'))
 
 @bp.route('/change-role', methods=['GET', 'POST'])
 @login_required
@@ -144,7 +144,7 @@ def change_role():
             flash('User not found')
     return render_template('change_role.html', form=form)
 
-def reload_settings():
+def reload_global_settings():
     settings = GlobalSettings.query.all()
     for s in settings:
         current_app.config[s.setting_name.upper()] = s.setting_value
