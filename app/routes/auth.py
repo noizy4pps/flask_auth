@@ -109,7 +109,7 @@ def create_admin():
 
     password = "admin123"
     hashed = generate_password_hash(password)
-    email = "lorenzo.quaglieri@libero.it"
+    email = "youremail@gmail.com"
     user_is_confirmed = True
     user_confirmed_on = datetime.utcnow()
     admin = User(username=username, email=email, password_hash=hashed, role='admin', is_confirmed=user_is_confirmed, confirmed_on=user_confirmed_on)
