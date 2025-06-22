@@ -29,6 +29,7 @@ def create_app():
     # load GlobalSettings model values
     from app.models import GlobalSettings
     with app.app_context():
+        db.create_all()
         settings = GlobalSettings.query.all()
         for setting in settings:
             app.config[setting.setting_name.upper()] = setting.setting_value
