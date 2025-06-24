@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {% set current_year = current_year or 2025 %}
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
     <title>{% block title %}My App{% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- crucial -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('main.home') }}">MyApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-      <ul class="navbar-nav">
-        {% if current_user.is_authenticated %}
-            {% if current_user.profile_image %}
-                    <a href="{{ url_for('user.profile') }}"><img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}"
-                         alt="Profile" class="rounded-circle me-2 mb-1" width="32" height="32"></a>
-            {% endif %}
-          <li class="nav-item">
-            <a class="btn btn-outline-primary btn-sm mb-1 mx-1" href="{{ url_for('main.dashboard') }}">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-outline-danger btn-sm mb-1 mx-1" href="{{ url_for('auth.logout') }}">Logout</a>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="btn btn-primary btn-sm mb-1 mx-1" href="{{ url_for('auth.login') }}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-primary btn-sm mb-1 mx-1" href="{{ url_for('auth.register') }}">Register</a>
-          </li>
-        {% endif %}
-      </ul>
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+    {% block content %}{% endblock %}
     </div>
-  </div>
-</nav>
+    <!-- End of Page Wrapper -->
 
-<div class="container mt-4">
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-info">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-</div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-<div class="container mt-4">
-  {% block main_menu %}{% endblock %}
-</div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ url_for('auth.logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<main class="container mt-5">
-  {% block content %}{% endblock %}
-</main>
-<footer class="bg-light text-center text-lg-start mt-5">
-  <div class="container p-4">
-    <p class="text-muted mb-0">© {{ current_year }} MyApp. All rights reserved.</p>
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+
 </body>
+
 </html>
