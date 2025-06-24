@@ -44,3 +44,9 @@ class ChangeRoleForm(FlaskForm):
     user_id = SelectField('User', coerce=int, validators=[DataRequired()])
     role = SelectField('New Role', choices=[('user', 'User'), ('editor', 'Editor')])
     submit = SubmitField('Update Role') 
+
+class UserDetailsForm(FlaskForm):
+    phone = StringField('Phone')
+    address = StringField('Address')
+    company = StringField('Company')
+    submit = SubmitField('Save Details')

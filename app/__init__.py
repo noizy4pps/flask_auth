@@ -42,6 +42,11 @@ def create_app():
 
     mail.init_app(app)
 
+    # datetime filter format
+    from app.filters import format_date
+    app.jinja_env.filters['format_date'] = format_date
+
+
     return app
 
 __all__ = ['mail']

@@ -250,23 +250,30 @@
 
                     <!-- Content Row -->
                      <!-- Begin profile content -->
-                    <div class="row">
-                        
-                        <p>Username: {{ user.username }}</p>
-                        
-                        
+                    <div class="row"> 
+                        <p>Username: {{ user.username }}</p> 
                     </div>
-
                     <!-- Content Row -->
-
                     <div class="row">
                         <p>Email: {{ user.email }}</p>
-                        
                     </div>
-
+                    <div class="row"> 
+                        <p>Phone: {{ user.details.phone if user.details else 'N/A' }}</p> 
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <p>Address: {{ user.details.address if user.details else 'N/A' }}</p>
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <p>Company: {{ user.details.company if user.details else 'N/A' }}</p>
+                    </div>
                     <!-- Content Row -->
                     <div class="row">
                       <a href="{{ url_for('user.user_settings') }}">Settings</a>
+                    </div>
+                    <div class="row">
+                      <a href="{{ url_for('user.edit_details') }}">Edit Profile Details</a>
                     </div>
                     <!-- End profile content -->
                 </div>

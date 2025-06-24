@@ -261,14 +261,14 @@
                                     {{ form.hidden_tag() }}
                                     <div class="mb-4">
                                         {{ form.user_id.label }} 
-                                        {{ form.user_id(id='user-id') }}<br>
+                                        {{ form.user_id(class_="form-control", id='user-id') }}<br>
                                     </div>
                                     <div class="mb-4">
                                         {{ form.role.label }} 
-                                        {{ form.role(id='role-id') }}<br>
+                                        {{ form.role(class_="form-control", id='role-id') }}<br>
                                     </div>
                                     <div class="d-grid">
-                                        {{ form.submit(class_="btn btn-dark btn-lg") }}
+                                        {{ form.submit(class_="form-control btn btn-dark btn-lg") }}
                                     </div>
                                 </form>
                             </div>
