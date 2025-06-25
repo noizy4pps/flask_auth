@@ -43,9 +43,9 @@ def create_app():
     mail.init_app(app)
 
     # datetime filter format
-    from app.filters import format_date
+    from app.filters import format_date, relative_time
     app.jinja_env.filters['format_date'] = format_date
-
+    app.jinja_env.filters['relative'] = relative_time
 
     return app
 

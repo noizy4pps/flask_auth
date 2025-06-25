@@ -38,13 +38,16 @@ def confirm_token(token, expiration=3600):
         return False
     return email
 
-
 def send_confirmation_email(user):
-    token = generate_confirmation_token(user.email)
-    confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-    html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
-    msg = Message('Confirm Your Email', recipients=[user.email], html=html)
-    mail.send(msg)
+    try:
+        token = generate_confirmation_token(user.email)
+        confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+        html = f'<p>Hi {user.username}, click the link to confirm your email:</p><a href="{confirm_url}">Confirm Email</a>'
+        msg = Message('Confirm Your Email', recipients=[user.email], html=html)
+        mail.send(msg)
+    except Exception as e:
+        flash(f"Error sending confirmation email: {e}")
+
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -203,7 +206,18 @@ def reset_password(token):
         return redirect(url_for('auth.login'))
     return render_template('reset_password.html', form=form)
 
-
+@bp.route('/resend_confirmation', methods=['POST'])
+@login_required
+def resend_confirmation():
+    if current_user.is_confirmed:
+        flash('Your account is already confirmed.')
+    else:
+        try:
+            send_confirmation_email(current_user)
+            flash('Confirmation email resent.')
+        except Exception as e:
+            flash('Error sending confirmation email.')
+    return redirect(url_for('user.profile'))
 
 
 

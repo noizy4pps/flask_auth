@@ -24,7 +24,6 @@ class UserDetails(db.Model):
     phone = db.Column(db.String(20))
     address = db.Column(db.String(200))
     company = db.Column(db.String(100))
-    last_pic = db.Column(db.String(200))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
     user = db.relationship('User', backref=db.backref('details', uselist=False, cascade='all, delete'))
 
