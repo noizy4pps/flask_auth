@@ -1,7 +1,7 @@
 # app/routes/main.py
 import os
 import uuid
-from flask import Blueprint, jsonify, render_template, request
+from flask import Blueprint, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user
 from app import allowed_file
 from config import Config
@@ -19,4 +19,12 @@ def home():
 def dashboard():
     return render_template('dashboard.html')
 
+@bp.route('/language')
+def language():
+    return render_template('language.html')
 
+
+@bp.route('/set_language', methods=['POST'])
+def set_language():
+    session['lang'] = request.form['lang']
+    return redirect(request.referrer or url_for('main.home'))

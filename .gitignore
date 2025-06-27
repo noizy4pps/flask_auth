@@ -1,3 +1,4 @@
+*.mo
 .venv/
 __pycache__/
 instance/

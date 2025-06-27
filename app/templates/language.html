@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Profile{% endblock %}
+{% block title %}Change Language{% endblock %}
 {% block content %}
 {% include 'sidebar.html' %}
 <!-- Content Wrapper -->
@@ -243,50 +243,70 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h4 class="h4 mb-0 text-gray-800">Profile page</h4>
+                        <h4 class="h4 mb-0 text-gray-800">Change language page</h4>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
 
                     <!-- Content Row -->
-                     <!-- Begin profile content -->
-                    {% if not user.is_confirmed %} 
+                     <!-- Begin change language form -->
+                    <div class="row">
+                       <div class="card shadow-lg w-100 mx-auto" style="max-width: 350px;">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h3">Change Language</h1>
+                            </div>
+                            <div class="mt-4">
+                                <form action="{{ url_for('main.set_language') }}" method="post">
+                                    {% set flags = {
+                                        'en': 'us',
+                                        'fr': 'fr',
+                                        'it': 'it',
+                                        'de': 'de',
+                                        'pt': 'pt',
+                                        'zh_TW': 'tw'
+                                    } %}
+
+                                    {% set current_lang = session.get('lang', 'en') %}
+
+                                    <!-- Current language display -->
+                                    <div class="mb-2">
+                                        <span class="fi fi-{{ flags[current_lang] }}"></span>
+                                        {{ config['LANGUAGES'][current_lang] }}
+                                    </div>
+
+                                    <!-- Language select -->
+                                    <select name="lang" class="form-control mb-2">
+                                        {% for code, name in config['LANGUAGES'].items() %}
+                                        <option value="{{ code }}" {% if code == current_lang %}selected{% endif %}>{{ name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                    <!-- CSRF token -->
+                                    {% if csrf_token %}
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    {% endif %}
+
+                                    <input type="submit" class="btn btn-primary" value="Change Language">
+                                    </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- End change language form -->
+                    <!-- Content Row -->
+
+                    <div class="row">
+                       
+                        
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                      
+                    </div>
                     
-                        <div class="alert alert-warning" role="alert">
-                        Please confirm your email.
-                        </div> 
-                        <div class="row mb-4"> 
-                        <form action="{{ url_for('auth.resend_confirmation') }}" method="post">
-                        <button class="form-control btn btn-warning" type="submit">Resend Confirmation Email</button>
-                        </form>
-                    </div>
-                    {% endif %} 
-                    <div class="row"> 
-                        <p>Username: {{ user.username }}</p> 
-                    </div>
-                    <!-- Content Row -->
-                    <div class="row">
-                        <p>Email: {{ user.email }}</p>
-                    </div>
-                    <div class="row"> 
-                        <p>Phone: {{ user.details.phone if user.details else 'N/A' }}</p> 
-                    </div>
-                    <!-- Content Row -->
-                    <div class="row">
-                        <p>{{ _('address') }}: {{ user.details.address if user.details else 'N/A' }}</p>
-                    </div>
-                    <!-- Content Row -->
-                    <div class="row">
-                        <p>{{ _('company') }}: {{ user.details.company if user.details else 'N/A' }}</p>
-                    </div>
-                    <!-- Content Row -->
-                    <div class="row">
-                      <a href="{{ url_for('user.user_settings') }}">{{ _('Settings') }}</a>
-                    </div>
-                    <div class="row">
-                      <a href="{{ url_for('user.edit_details') }}">{{ _('Edit Profile Details') }}</a>
-                    </div>
-                    <!-- End profile content -->
                 </div>
                 <!-- /.container-fluid -->
 
@@ -306,3 +326,4 @@
         </div>
         <!-- End of Content Wrapper -->
 {% endblock %}
+
