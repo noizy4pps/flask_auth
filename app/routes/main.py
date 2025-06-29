@@ -11,6 +11,7 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def home():
+    print(session)
     return render_template('home.html')
 
 
@@ -24,7 +25,4 @@ def language():
     return render_template('language.html')
 
 
-@bp.route('/set_language', methods=['POST'])
-def set_language():
-    session['lang'] = request.form['lang']
-    return redirect(request.referrer or url_for('main.home'))
+

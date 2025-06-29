@@ -1,6 +1,6 @@
 # app/routes/user.py
 
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user
 from app import db
 from app.forms import UserDetailsForm
@@ -30,3 +30,8 @@ def edit_details():
         flash('Details updated.')
         return redirect(url_for('user.profile'))
     return render_template('edit_details.html', form=form)
+
+@bp.route('/set_language', methods=['POST'])
+def set_language():
+    session['lang'] = request.form['lang']
+    return redirect(request.referrer or url_for('main.home'))
