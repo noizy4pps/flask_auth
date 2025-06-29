@@ -33,5 +33,14 @@ def edit_details():
 
 @bp.route('/set_language', methods=['POST'])
 def set_language():
-    session['lang'] = request.form['lang']
+    lang = request.form['lang']
+    session['lang'] = lang
+    if current_user.is_authenticated:
+        if current_user.details:
+            current_user.details.pref_lang = lang
+        else:
+            # Create and link the UserDetails
+            details = UserDetails(pref_lang=lang, user=current_user)
+            db.session.add(details)
+        db.session.commit()
     return redirect(request.referrer or url_for('main.home'))
