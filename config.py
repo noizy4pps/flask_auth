@@ -2,6 +2,8 @@
 import os
 
 class Config:
+    # Global configuration
+    APP_NAME = 'My App'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'devkey'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -11,11 +13,11 @@ class Config:
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     
     # Email configuration
-    MAIL_SERVER = 'smtp.gmail.com'          # or your SMTP
+    MAIL_SERVER = 'smtp.gmail.com' 
     MAIL_PORT = 587
     MAIL_USE_TLS = True
     MAIL_USERNAME = 'pippopluto5394@gmail.com'
-    MAIL_PASSWORD = ''
+    MAIL_PASSWORD = 'kfuu swoz dujz qogw'
     MAIL_DEFAULT_SENDER = 'pippopluto5394@gmail.com'
     
     # translations
