@@ -1,7 +1,7 @@
 # app/routes/main.py
 import os
 import uuid
-from flask import Blueprint, jsonify, redirect, render_template, request, session, url_for
+from flask import Blueprint, current_app, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_required, current_user
 from app import allowed_file
 from app.models import UserDetails
@@ -15,6 +15,8 @@ bp = Blueprint('main', __name__)
 def home():
     print(session)
     print("is auth: ", current_user.is_authenticated)
+    for name, value in current_app.config.items():
+        print(f"{name} = {value}")
     return render_template('home.html')
 
 

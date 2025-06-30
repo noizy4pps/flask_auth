@@ -13,12 +13,12 @@ class Config:
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     
     # Email configuration
-    MAIL_SERVER = 'smtp.gmail.com' 
+    MAIL_SERVER = 'smtp.gmail.com'   # or your SMTP server
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'pippopluto5394@gmail.com'
-    MAIL_PASSWORD = 'kfuu swoz dujz qogw'
-    MAIL_DEFAULT_SENDER = 'pippopluto5394@gmail.com'
+    MAIL_USERNAME = 'youremail@example.com'
+    MAIL_PASSWORD = 'your mail provider app pw'
+    MAIL_DEFAULT_SENDER = 'youremail@example.com'
     
     # translations
     TRANSLATE = True
