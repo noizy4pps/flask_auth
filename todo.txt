@@ -2,6 +2,9 @@
 - profile page OK
 - settings in session OK
 - if email not confirmed, after registration, what limits?
-- log admin actions
+- log admin/users actions
 - tieni traccia delle immagini caricate per cambiare imm. profilo senza fare upload ?
-- translations
+- translations OK
+- add translations (Port., cinese, spagnolo, tedesco)
+- Track other user activities (e.g., registration, password reset), in separate table
+- Send real-time notifications/emails on events

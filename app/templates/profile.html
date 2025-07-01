@@ -75,6 +75,10 @@
                         <p>preferred language: {{ config['LANGUAGES'][user.details.pref_lang] if user.details else 'N/A' }}</p>
                     </div>
                     <!-- Content Row -->
+                     <div class="row">
+                       <p><p>Last login: {{ current_user.details.last_login }}</p></p>
+                    </div>
+                    <!-- Content Row -->
                     <div class="row">
                       <a href="{{ url_for('user.user_settings') }}">{{ _('Settings') }}</a>
                     </div>

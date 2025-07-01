@@ -39,6 +39,10 @@ def create_app():
         for setting in settings:
             app.config[setting.setting_name.upper()] = setting.setting_value
 
+    # signals.py
+    with app.app_context():
+        from app import signals 
+        
     # import Blueprints
     from app.routes import main, auth, admin, user
     app.register_blueprint(main)

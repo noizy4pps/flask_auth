@@ -25,6 +25,7 @@ class UserDetails(db.Model):
     address = db.Column(db.String(200))
     company = db.Column(db.String(100))
     pref_lang = db.Column(db.String(5), default='en')
+    last_login = db.Column(db.DateTime(timezone=True), default=None)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
     user = db.relationship('User', backref=db.backref('details', uselist=False, cascade='all, delete'))
 
