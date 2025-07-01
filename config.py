@@ -25,8 +25,12 @@ class Config:
     LANGUAGES = {
     'en': 'English',
     'it': 'Italiano',
-    'fr': 'Français'
-    }
+    'fr': 'Français',
+    'es': 'Español',
+    'de': 'Deutsch',
+    'pt': 'Português',
+    'zh_CN': '简体中文'
+}
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 

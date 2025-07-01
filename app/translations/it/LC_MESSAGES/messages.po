@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-27 09:30+0200\n"
+"POT-Creation-Date: 2025-07-02 01:04+0200\n"
 "PO-Revision-Date: 2025-06-27 01:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: it\n"
@@ -37,19 +37,19 @@ msgstr ""
 msgid "%(day)d day(s) ago"
 msgstr ""
 
-#: app/templates/profile.html:276
+#: app/templates/profile.html:67
 msgid "address"
 msgstr "indirizzo"
 
-#: app/templates/profile.html:280
+#: app/templates/profile.html:71
 msgid "company"
 msgstr "azienda"
 
-#: app/templates/profile.html:284
+#: app/templates/profile.html:83
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: app/templates/profile.html:287
+#: app/templates/profile.html:86
 msgid "Edit Profile Details"
 msgstr "Modifica il profilo"
 

@@ -51,11 +51,12 @@
                                 <form action="{{ url_for('user.set_language') }}" method="post">
                                     {% set flags = {
                                         'en': 'us',
-                                        'fr': 'fr',
                                         'it': 'it',
+                                        'fr': 'fr',
+                                        'es': 'es',
                                         'de': 'de',
                                         'pt': 'pt',
-                                        'zh_TW': 'tw'
+                                        'zh_CN': 'cn'
                                     } %}
 
                                     {% set current_lang = session.get('lang', 'en') %}
