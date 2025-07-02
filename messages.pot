@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-02 01:04+0200\n"
+"POT-Creation-Date: 2025-07-02 03:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,16 +36,28 @@ msgstr ""
 msgid "%(day)d day(s) ago"
 msgstr ""
 
+#: app/templates/navbar.html:13
+msgid "Search for"
+msgstr ""
+
+#: app/templates/navbar.html:188
+msgid "Profile"
+msgstr ""
+
+#: app/templates/navbar.html:192 app/templates/profile.html:83
+msgid "Settings"
+msgstr ""
+
+#: app/templates/navbar.html:196
+msgid "Activity Log"
+msgstr ""
+
 #: app/templates/profile.html:67
 msgid "address"
 msgstr ""
 
 #: app/templates/profile.html:71
 msgid "company"
-msgstr ""
-
-#: app/templates/profile.html:83
-msgid "Settings"
 msgstr ""
 
 #: app/templates/profile.html:86

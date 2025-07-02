@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-02 01:04+0200\n"
+"POT-Creation-Date: 2025-07-02 03:11+0200\n"
 "PO-Revision-Date: 2025-06-27 01:36+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: app/filters.py:20
 msgid "just now"
-msgstr ""
+msgstr "tout à l' heure"
 
 #: app/filters.py:22
 #, python-format
@@ -37,6 +37,22 @@ msgstr ""
 msgid "%(day)d day(s) ago"
 msgstr ""
 
+#: app/templates/navbar.html:13
+msgid "Search for"
+msgstr Rechercher""
+
+#: app/templates/navbar.html:188
+msgid "Profile"
+msgstr "Profil"
+
+#: app/templates/navbar.html:192 app/templates/profile.html:83
+msgid "Settings"
+msgstr "Paramètres"
+
+#: app/templates/navbar.html:196
+msgid "Activity Log"
+msgstr "Journal d'activité"
+
 #: app/templates/profile.html:67
 msgid "address"
 msgstr "adresse"
@@ -44,10 +60,6 @@ msgstr "adresse"
 #: app/templates/profile.html:71
 msgid "company"
 msgstr "enterprise"
-
-#: app/templates/profile.html:83
-msgid "Settings"
-msgstr "Paramètres"
 
 #: app/templates/profile.html:86
 msgid "Edit Profile Details"
