@@ -25,17 +25,17 @@ msgstr "tout à l' heure"
 #: app/filters.py:22
 #, python-format
 msgid "%(min)d minute(s) ago"
-msgstr ""
+msgstr "il y a %(min)d minute(s)"
 
 #: app/filters.py:24
 #, python-format
 msgid "%(hr)d hour(s) ago"
-msgstr ""
+msgstr "il y a %(hr)d heure(s)"
 
 #: app/filters.py:26
 #, python-format
 msgid "%(day)d day(s) ago"
-msgstr ""
+msgstr "il y a %(day)d jour(s)"
 
 #: app/templates/navbar.html:13 app/templates/navbar.html:38
 msgid "Search for"

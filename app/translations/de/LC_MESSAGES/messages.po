@@ -25,17 +25,17 @@ msgstr "soeben"
 #: app/filters.py:22
 #, python-format
 msgid "%(min)d minute(s) ago"
-msgstr "vor %(min) minuten"
+msgstr "vor %(min)d Minute(n)"
 
 #: app/filters.py:24
 #, python-format
 msgid "%(hr)d hour(s) ago"
-msgstr ""
+msgstr "vor %(hr)d Stunde(n)"
 
 #: app/filters.py:26
 #, python-format
 msgid "%(day)d day(s) ago"
-msgstr ""
+msgstr "vor %(day)d Tag(en)"
 
 #: app/templates/navbar.html:13 app/templates/navbar.html:38
 msgid "Search for"
