@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-02 03:11+0200\n"
+"POT-Creation-Date: 2025-07-03 02:56+0200\n"
 "PO-Revision-Date: 2025-07-02 01:03+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "%(day)d day(s) ago"
 msgstr ""
 
-#: app/templates/navbar.html:13
+#: app/templates/navbar.html:13 app/templates/navbar.html:38
 msgid "Search for"
 msgstr "Buscar"
 
@@ -45,7 +45,7 @@ msgstr "Buscar"
 msgid "Profile"
 msgstr "Perfil"
 
-#: app/templates/navbar.html:192 app/templates/profile.html:83
+#: app/templates/navbar.html:192 app/templates/profile.html:78
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -53,15 +53,46 @@ msgstr "Ajustes"
 msgid "Activity Log"
 msgstr "Registro actividad"
 
-#: app/templates/profile.html:67
+#: app/templates/navbar.html:218
+msgid "Login"
+msgstr "Acceso"
+
+#: app/templates/navbar.html:222
+msgid "Sign up"
+msgstr "Inscribirse"
+
+#: app/templates/navbar.html:226
+msgid "Home"
+msgstr "Hogar"
+
+#: app/templates/profile.html:62
 msgid "address"
 msgstr "direcciòn"
 
-#: app/templates/profile.html:71
+#: app/templates/profile.html:66
 msgid "company"
 msgstr "agencia"
 
-#: app/templates/profile.html:86
+#: app/templates/profile.html:81
 msgid "Edit Profile Details"
 msgstr "Editar detalles del perfil"
+
+#: app/templates/sidebar2.html:16
+msgid "Support"
+msgstr "Apoyo"
+
+#: app/templates/sidebar2.html:23
+msgid "Privacy"
+msgstr "Privacidad"
+
+#: app/templates/sidebar2.html:30
+msgid "Terms"
+msgstr "Términos"
+
+#: app/templates/sidebar2.html:37
+msgid "Feedback"
+msgstr "Comentario"
+
+#~ msgid "Register"
+#~ msgstr "Registro"
 

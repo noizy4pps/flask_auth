@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-02 03:11+0200\n"
-"PO-Revision-Date: 2025-07-02 01:03+0200\n"
+"POT-Creation-Date: 2025-07-03 02:56+0200\n"
+"PO-Revision-Date: 2025-07-03 03:25+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_Hans_CN\n"
 "Language-Team: zh_Hans_CN <LL@li.org>\n"
@@ -20,48 +20,76 @@ msgstr ""
 
 #: app/filters.py:20
 msgid "just now"
-msgstr "现在"
+msgstr "刚刚"
 
 #: app/filters.py:22
 #, python-format
 msgid "%(min)d minute(s) ago"
-msgstr ""
+msgstr "%(min)d分钟前"
 
 #: app/filters.py:24
 #, python-format
 msgid "%(hr)d hour(s) ago"
-msgstr ""
+msgstr "%(hr)d小时前"
 
 #: app/filters.py:26
 #, python-format
 msgid "%(day)d day(s) ago"
-msgstr ""
+msgstr "%(day)d天前"
 
-#: app/templates/navbar.html:13
+#: app/templates/navbar.html:13 app/templates/navbar.html:38
 msgid "Search for"
 msgstr "搜索"
 
 #: app/templates/navbar.html:188
 msgid "Profile"
-msgstr "轮廓"
+msgstr "个人资料"
 
-#: app/templates/navbar.html:192 app/templates/profile.html:83
+#: app/templates/navbar.html:192 app/templates/profile.html:78
 msgid "Settings"
-msgstr "設定"
+msgstr "设置"
 
 #: app/templates/navbar.html:196
 msgid "Activity Log"
 msgstr "活动日志"
 
-#: app/templates/profile.html:67
+#: app/templates/navbar.html:218
+msgid "Login"
+msgstr "登录"
+
+#: app/templates/navbar.html:222
+msgid "Sign up"
+msgstr "注册"
+
+#: app/templates/navbar.html:226
+msgid "Home"
+msgstr "首页"
+
+#: app/templates/profile.html:62
 msgid "address"
 msgstr "地址"
 
-#: app/templates/profile.html:71
+#: app/templates/profile.html:66
 msgid "company"
-msgstr "機構"
+msgstr "公司"
 
-#: app/templates/profile.html:86
+#: app/templates/profile.html:81
 msgid "Edit Profile Details"
-msgstr "編輯個人資料詳細信息"
+msgstr "编辑个人资料"
+
+#: app/templates/sidebar2.html:16
+msgid "Support"
+msgstr "支持"
+
+#: app/templates/sidebar2.html:23
+msgid "Privacy"
+msgstr "隐私"
+
+#: app/templates/sidebar2.html:30
+msgid "Terms"
+msgstr "条款"
+
+#: app/templates/sidebar2.html:37
+msgid "Feedback"
+msgstr "反馈"
 

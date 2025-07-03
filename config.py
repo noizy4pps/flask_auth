@@ -29,7 +29,7 @@ class Config:
     'es': 'Español',
     'de': 'Deutsch',
     'pt': 'Português',
-    'zh_CN': '简体中文'
+    'zh_Hans_CN': '简体中文'
 }
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
