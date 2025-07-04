@@ -37,7 +37,8 @@ def create_app():
         db.create_all()
         settings = GlobalSettings.query.all()
         for setting in settings:
-            app.config[setting.setting_name.upper()] = setting.setting_value
+            key = setting.setting_name.upper()
+            app.config[key] = setting.get_typed_value()
 
     # signals.py
     with app.app_context():

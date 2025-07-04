@@ -37,10 +37,17 @@ class GlobalSettings(db.Model):
     description = db.Column(db.String(200))
 
     def get_typed_value(self):
-        val = self.setting_value.strip()
+        val = self.setting_value.strip().lower()
+
+        if val in ('true', 'yes', 'on', '1'):
+            return True
+        if val in ('false', 'no', 'off', '0'):
+            return False
+
         if val.isdigit():
             return int(val)
-        try: return float(val)
+        
+        try:
+            return float(val)
         except ValueError:
-            pass
-        return val
+            return self.setting_value.strip()  # original string

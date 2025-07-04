@@ -4,7 +4,7 @@ import os
 import uuid
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import GlobalSettings, User
 from app.forms import LoginForm, RegistrationForm, RequestResetForm, ResetPasswordForm, UpdateEmailForm, UpdatePasswordForm
 from app import allowed_file, db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -13,7 +13,7 @@ from itsdangerous import URLSafeTimedSerializer
 from flask import current_app
 from flask_mail import Message
 from app import mail  # ensure mail = Mail(app) is in your app factory
-
+from sqlalchemy.exc import SQLAlchemyError
 from config import Config
 
 bp = Blueprint('auth', __name__)
@@ -103,6 +103,37 @@ def confirm_email(token):
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('auth.login'))
 
+
+@bp.route('/app-setup', methods=['GET'])
+def app_setup():
+    settings_to_create = {
+        'TRACK_USERS_EMAIL_CHANGE': 'false',
+        'TRACK_USERS_SIGNUP': 'false'
+    }
+
+    created_settings = []
+
+    try:
+        for key, val in settings_to_create.items():
+            existing = GlobalSettings.query.filter_by(setting_name=key).first()
+            if not existing:
+                setting = GlobalSettings(
+                    setting_name=key,
+                    setting_value=val,
+                    description=f'System setting: {key.replace("_", " ").title()}'
+                )
+                db.session.add(setting)
+                created_settings.append(setting)
+
+        if created_settings:
+            db.session.commit()
+            return render_template('setup_success.html')  # shows the "Create Admin" button
+        else:
+            return jsonify({'error': 'Settings already exist. Setup not required.'}), 400
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error creating global settings', 'details': str(e)}), 500
 
 @bp.route('/create-admin', methods=['GET'])
 def create_admin():

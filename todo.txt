@@ -1,10 +1,12 @@
 - promote-demote users OK
 - profile page OK
-- settings in session OK
+- settings in session (config) OK
 - if email not confirmed, after registration, what limits?
 - log admin/users actions
 - tieni traccia delle immagini caricate per cambiare imm. profilo senza fare upload ?
 - translations OK
-- add translations (Port., cinese, spagnolo, tedesco)
+- add translations (Port., cinese, spagnolo, tedesco) OK
 - Track other user activities (e.g., registration, password reset), in separate table
+    - email change
+    - user sign-up
 - Send real-time notifications/emails on events
