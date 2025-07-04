@@ -88,7 +88,8 @@ def add_global_setting():
         db.session.add(new_setting)
         db.session.commit()
         # Sync change with app.config
-        current_app.config[new_setting.setting_name.upper()] = value
+        # current_app.config[new_setting.setting_name.upper()] = value
+        current_app.config[new_setting.setting_name.upper()] = new_setting.get_typed_value()
         # print(current_app.config[new_setting.setting_name.upper()])
         flash('Setting added.')
         return redirect(url_for('admin.global_settings'))
@@ -107,7 +108,8 @@ def edit_global_setting(id):
         setting.description = request.form['description']
         db.session.commit()
         # Sync change with app.config
-        current_app.config[setting.setting_name.upper()] = request.form['setting_value']
+        # current_app.config[setting.setting_name.upper()] = request.form['setting_value']
+        current_app.config[setting.setting_name.upper()] = setting.get_typed_value()
         flash('Setting updated.')
         return redirect(url_for('admin.global_settings'))
 
@@ -149,3 +151,19 @@ def reload_global_settings():
     for s in settings:
         current_app.config[s.setting_name.upper()] = s.setting_value
         print(f"=={s.setting_name.upper()}={s.setting_value}==")
+
+from flask import request, jsonify
+from app.models import GlobalSettings
+from app import db
+
+@bp.route('/gsettings', methods=['POST'])
+def gsettings_toggle():
+    data = request.get_json()
+    setting = GlobalSettings.query.get(data['id'])
+    if not setting:
+        return jsonify({'message': 'Setting not found'}), 404
+
+    setting.setting_value = 'true' if data['value'] else 'false'
+    db.session.commit()
+    return jsonify({'message': f"{setting.setting_name} updated"})
+

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{% block title %}My App{% endblock %}</title>
 
@@ -19,6 +20,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <!-- Another custom style-->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     <!-- Flag Icons CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.7.0/css/flag-icons.min.css">
 
@@ -72,7 +75,8 @@
     <!-- Page level custom scripts -->
     <script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
-
+    <!-- custom scripts -->
+    <script src="{{ url_for('static', filename='js/myscripts.js') }}"></script>
 </body>
 
 </html>

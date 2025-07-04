@@ -37,7 +37,7 @@
             <!-- Content Row -->
             <!-- Begin global settings list -->
             <div class="row">
-                <div class="card shadow-lg w-100 mx-auto" style="max-width: 800px;">
+                <div class="card shadow-lg w-100 mx-auto" style="max-width: 1000px;">
                     <div class="card-body">
                         <div class="text-center">
                             <h1 class="card-title h3">Global settings</h1>
@@ -56,23 +56,50 @@
                                     {% for setting in settings %}
                                     <tr>
                                         <td>{{ setting.setting_name }}</td>
-                                        <td>{{ setting.setting_value }}</td>
-                                        <td>{{ setting.description }}</td>
-                                        <td>
-                                            <a href="{{ url_for('admin.edit_global_setting', id=setting.id) }}"
-                                                class="btn btn-sm btn-outline-primary">Edit</a>
-                                            <form action="{{ url_for('admin.delete_global_setting', id=setting.id) }}"
-                                                method="POST" style="display:inline;">
-                                                <!-- CSRF token -->
-                                                {% if csrf_token %}
-                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <td>{% set typed_value = setting.get_typed_value() %}
+                                            {% if typed_value in [True, False] %}
+                                            <label class="switch">
+                                                <input type="checkbox" class="toggle-setting" data-id="{{ setting.id }}" {% if typed_value %}checked{% endif %}>
+                                                <span class="slider round"></span>
+                                            </label>
+                                            {% else %}
+                                            {{ setting.setting_value }}
+                                            {% endif %}
+                                        </td>
+                                        <td class="desc-cell" data-full="{{ setting.description }}" data-short="{{ setting.description[:20] }}">
+                                                {{ setting.description[:20] }}
+                                                {% if setting.description|length > 20 %}...
+                                                    <a href="#" class="toggle-desc">[more]</a>
                                                 {% endif %}
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Delete this setting?')">Delete</button>
-                                            </form>
+                                        </td>
+                                        <td>
+                                            {% if typed_value in [True, False] %}
+                                                <form action="{{ url_for('admin.delete_global_setting', id=setting.id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    <!-- CSRF token -->
+                                                    {% if csrf_token %}
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    {% endif %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger py-0 mysize1"
+                                                        onclick="return confirm('Delete this setting?')">Delete</button>
+                                                </form>
+                                            {% else %}
+                                                <a href="{{ url_for('admin.edit_global_setting', id=setting.id) }}"
+                                                    class="text-primary mr-2">Edit</a>
+                                                <form action="{{ url_for('admin.delete_global_setting', id=setting.id) }}"
+                                                    method="POST" style="display:inline;">
+                                                    <!-- CSRF token -->
+                                                    {% if csrf_token %}
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    {% endif %}
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger py-0 mysize1"
+                                                        onclick="return confirm('Delete this setting?')">Delete</button>
+                                                </form>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% endfor %}
+
                                 </tbody>
                             </table>
 
