@@ -1,6 +1,8 @@
 - promote-demote users OK
 - profile page OK
 - settings in session (config) OK
+- translation avviene solo se TRANSLATE config var è TRUE. Check se l'app si comporta 
+  di conseguenza in tutta la gestione del linguaggio
 - if email not confirmed, after registration, what limits?
 - log admin/users actions
 - tieni traccia delle immagini caricate per cambiare imm. profilo senza fare upload ?
